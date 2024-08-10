@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate  } from "react-router-
 import Defendenses from "./pages/defendenses/Defendenses"
 import Layouts from "./components/layouts/Layouts"
 import UndestndUseEffect from "./pages/undsnt_useEffect/UndestndUseEffect"
-import ProductList from "./pages/productList/ProductList"
+import Product from "./pages/productList/Product"
 
 function App() {
 
@@ -16,7 +16,7 @@ function App() {
           <Route path="/" element={<h1>no such file</h1>}/>
           <Route path="/undsnt_useEffect" element={<Layouts><UndestndUseEffect/></Layouts>}/>
           <Route path="/undsnt_useEffect" element={<Layouts><Defendenses/></Layouts>}/>
-          <Route path="/productList" element={<Layouts><ProductList/></Layouts>}/>
+          <Route path="/productList" element={<Layouts><Product/></Layouts>}/>
 
           <Route path="*" element={<Navigate to={'/'}/>} />
         </Routes>
