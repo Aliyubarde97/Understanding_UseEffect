@@ -1,13 +1,13 @@
 import axios, { CanceledError } from "axios"
 import { useEffect, useState } from "react"
 
-interface user {
+interface User {
   id: number,
   name: string;
 }
 const Fetching_Data = () => {
 
-  const [users, setUsers] = useState<user[]>([])
+  const [users, setUsers] = useState<User[]>([])
   const [error, setError] = useState('');
   const [isLoading, setLoading] = useState(false)
 
@@ -17,7 +17,7 @@ const Fetching_Data = () => {
 
     setLoading(true);
     axios
-      .get<user[]>('https://jsonplaceholder.typicode.com/users', { signal: controller.signal })
+      .get<User[]>('https://jsonplaceholder.typicode.com/users', { signal: controller.signal })
       .then((res) => {
         setUsers(res.data);
         setLoading(false)
@@ -35,15 +35,27 @@ const Fetching_Data = () => {
     return () => controller.abort();
 
   }, []);
+      const deleteUser = (user:User) => {
+        const originalUsers = [...users]
+        setUsers(users.filter( u => u.id !== user.id))
+        axios.delete('https://jsonplaceholder.typicode.com/users' + user.id)
+        .catch(err => {
+          setError(err.message);
+          setUsers(originalUsers)
 
+        })
+      }
   return (
     <>
+  
       { error &&  <p className="text-red-500">{error}</p>}
-      { isLoading && <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-blue-500">isLoading</div>}
+      { isLoading && <div className="animate-spin rounded-full h-32 w-32 border-4 border-blue-500 border-t-transparent border-b-transparent mx-auto"></div>}
 
-      <ul>
+      <ul className="border">
         {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
+          <li key={user.id} className="flex justify-content-between">{user.name} 
+          <button className="bg-red-400 rounded-md outline" onClick={() =>
+          deleteUser(user)} >Delete</button></li>
         ))}
       </ul>
     </>
